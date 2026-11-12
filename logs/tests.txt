@@ -1,0 +1,10 @@
+test_benchmark_runs_at_least_ten_repeats (test_npu_sim.MiniNPUTests.test_benchmark_runs_at_least_ten_repeats) ... ok
+test_case_schema_errors_are_reported_without_aborting (test_npu_sim.MiniNPUTests.test_case_schema_errors_are_reported_without_aborting) ... ok
+test_flat_bonus_matches_reference (test_npu_sim.MiniNPUTests.test_flat_bonus_matches_reference) ... ok
+test_generated_patterns_match_their_filter (test_npu_sim.MiniNPUTests.test_generated_patterns_match_their_filter) ... ok
+test_label_aliases_and_epsilon_tie (test_npu_sim.MiniNPUTests.test_label_aliases_and_epsilon_tie) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.001s
+
+OK

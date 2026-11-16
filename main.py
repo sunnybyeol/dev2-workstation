@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
+from time import perf_counter_ns
 from typing import List
 
 from npu_sim import (
@@ -93,7 +94,9 @@ def mode_manual() -> None:
     filter_a = read_matrix(3, "필터 A")
     filter_b = read_matrix(3, "필터 B")
     pattern = read_matrix(3, "패턴")
+    mac_started = perf_counter_ns()
     score_a, score_b, judgment = compare_manual(pattern, filter_a, filter_b)
+    mac_elapsed_ms = (perf_counter_ns() - mac_started) / 1_000_000.0
 
     flat_a = mac_flat(flatten(pattern), flatten(filter_a))
     flat_b = mac_flat(flatten(pattern), flatten(filter_b))
@@ -105,6 +108,7 @@ def mode_manual() -> None:
     print("B 점수: {:.1f}".format(score_b))
     print("판정: {}".format(judgment))
     print("MAC 횟수: 필터당 9회, A/B 합계 18회")
+    print("2개 필터 MAC 연산 시간: {:.6f} ms".format(mac_elapsed_ms))
     print("2D/1D 결과 일치: PASS")
 
 

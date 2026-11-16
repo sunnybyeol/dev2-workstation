@@ -48,6 +48,31 @@ def validate_binary_matrix(value: Any, size: int, field: str) -> List[List[int]]
     return matrix
 
 
+def validate_weight_matrix(value: Any, size: int, field: str) -> List[List[float]]:
+    """Validate a square finite-number filter matrix; weights may be fractional."""
+    if not isinstance(value, list) or len(value) != size:
+        raise ValueError("{} must have {} rows.".format(field, size))
+    matrix: List[List[float]] = []
+    for row_number, row in enumerate(value, start=1):
+        if not isinstance(row, list) or len(row) != size:
+            raise ValueError(
+                "{} row {} must contain exactly {} values.".format(field, row_number, size)
+            )
+        clean_row: List[float] = []
+        for item in row:
+            if isinstance(item, bool) or not isinstance(item, (int, float)):
+                raise ValueError("{} weights must be finite numbers.".format(field))
+            try:
+                weight = float(item)
+            except (OverflowError, ValueError):
+                raise ValueError("{} weights must be finite numbers.".format(field))
+            if not math.isfinite(weight):
+                raise ValueError("{} weights must be finite numbers.".format(field))
+            clean_row.append(weight)
+        matrix.append(clean_row)
+    return matrix
+
+
 def generate_pattern(size: int, label: str) -> List[List[int]]:
     """Generate a Cross (+) or X pattern. Even sizes use both center rows/columns."""
     if isinstance(size, bool) or not isinstance(size, int) or size < 1:
@@ -149,7 +174,7 @@ def _size_from_key(key: str) -> int:
     return size
 
 
-def _filter_pair(filters: Any, size: int) -> Tuple[List[List[int]], List[List[int]]]:
+def _filter_pair(filters: Any, size: int) -> Tuple[List[List[float]], List[List[float]]]:
     bank_key = "size_{}".format(size)
     if not isinstance(filters, dict) or not isinstance(filters.get(bank_key), dict):
         raise ValueError("filter bank {} is missing or is not an object.".format(bank_key))
@@ -163,8 +188,8 @@ def _filter_pair(filters: Any, size: int) -> Tuple[List[List[int]], List[List[in
             canonical[label] = matrix
     if LABEL_CROSS not in canonical or LABEL_X not in canonical:
         raise ValueError("filter bank {} must contain Cross and X filters.".format(bank_key))
-    cross = validate_binary_matrix(canonical[LABEL_CROSS], size, bank_key + ".Cross")
-    x_filter = validate_binary_matrix(canonical[LABEL_X], size, bank_key + ".X")
+    cross = validate_weight_matrix(canonical[LABEL_CROSS], size, bank_key + ".Cross")
+    x_filter = validate_weight_matrix(canonical[LABEL_X], size, bank_key + ".X")
     return cross, x_filter
 
 
@@ -216,7 +241,7 @@ def benchmark_by_size(dataset: Any, repeats: int = BENCHMARK_REPEATS) -> List[Di
     if not isinstance(dataset, dict) or not isinstance(dataset.get("patterns"), dict):
         return []
 
-    groups: Dict[int, List[Tuple[List[List[int]], List[List[int]], List[List[int]]]]] = {}
+    groups: Dict[int, List[Tuple[List[List[int]], List[List[float]], List[List[float]]]]] = {}
     filters = dataset.get("filters")
     for case_id, case_data in dataset["patterns"].items():
         try:

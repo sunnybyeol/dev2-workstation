@@ -6,26 +6,23 @@
 4. 종료
 모드 선택 (1-4): 
 === 모드 2: data.json 분석 ===
-size_5_1 | Cross=9.000000 | X=1.000000 | 판정=Cross | expected=Cross | PASS
-size_5_2 | Cross=1.000000 | X=9.000000 | 판정=X | expected=X | PASS
-size_5_3 | Cross=0.000000 | X=0.000000 | 판정=UNDECIDED | expected=UNDECIDED | PASS
-size_13_1 | Cross=25.000000 | X=1.000000 | 판정=Cross | expected=Cross | PASS
-size_13_2 | Cross=1.000000 | X=25.000000 | 판정=X | expected=X | PASS
-size_13_3 | Cross=0.000000 | X=0.000000 | 판정=UNDECIDED | expected=UNDECIDED | PASS
-size_25_1 | Cross=49.000000 | X=1.000000 | 판정=Cross | expected=Cross | PASS
-size_25_2 | Cross=1.000000 | X=49.000000 | 판정=X | expected=X | PASS
-size_25_3 | Cross=0.000000 | X=0.000000 | 판정=UNDECIDED | expected=UNDECIDED | PASS
+size_5_1 | Cross=0.900000 | X=0.900000 | 판정=UNDECIDED | expected=UNDECIDED | PASS
+size_5_2 | Cross=8.900000 | X=0.100000 | 판정=Cross | expected=Cross | PASS
+size_13_1 | Cross=0.300000 | X=14.700000 | 판정=X | expected=X | PASS
+size_13_2 | Cross=7.500000 | X=7.500000 | 판정=UNDECIDED | expected=UNDECIDED | PASS
+size_25_1 | Cross=4.900000 | X=4.900000 | 판정=UNDECIDED | expected=UNDECIDED | PASS
+size_25_2 | Cross=52.900000 | X=0.100000 | 판정=Cross | expected=Cross | PASS
 
-전체 테스트: 9개
-통과: 9개
+전체 테스트: 6개
+통과: 6개
 실패: 0개
 실패 케이스: 없음
 
 성능 분석 (입출력 제외, 10회 반복 평균)
 크기 | 사례/반복 | 2D 평균(ms) | 1D 평균(ms) | MAC/필터 | MAC/비교
-5x5 | 3 | 0.003387 | 0.002180 | 25 | 50
-13x13 | 3 | 0.018050 | 0.013303 | 169 | 338
-25x25 | 3 | 0.074947 | 0.055020 | 625 | 1250
+5x5 | 2 | 0.003320 | 0.002090 | 25 | 50
+13x13 | 2 | 0.017475 | 0.012515 | 169 | 338
+25x25 | 2 | 0.061755 | 0.048260 | 625 | 1250
 
 ===== Mini NPU Simulator =====
 1. 사용자 입력 (3x3)

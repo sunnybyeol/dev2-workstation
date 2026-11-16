@@ -41,6 +41,50 @@ class MiniNPUTests(unittest.TestCase):
         self.assertFalse(results[1].passed)
         self.assertIn("3 rows", results[1].reason)
 
+    def test_fractional_filter_weights_are_supported(self):
+        filters = {
+            LABEL_CROSS: [[0.0, 0.5], [1.2, 0.0]],
+            LABEL_X: [[0.1, 0.0], [0.0, 0.1]],
+        }
+        dataset = {
+            "filters": {"size_2": filters},
+            "patterns": {
+                "size_2_1": {"input": [[0, 1], [1, 0]], "expected": LABEL_CROSS}
+            },
+        }
+        results, errors = evaluate_dataset(dataset)
+        self.assertFalse(errors)
+        self.assertTrue(results[0].passed)
+        self.assertEqual(results[0].score_cross, 1.7)
+
+    def test_non_finite_filter_weight_fails_only_that_case(self):
+        filters = generate_standard_filters(2)
+        filters["Cross"][0][0] = float("nan")
+        dataset = {
+            "filters": {"size_2": filters},
+            "patterns": {
+                "size_2_1": {"input": [[1, 0], [0, 1]], "expected": LABEL_CROSS}
+            },
+        }
+        results, errors = evaluate_dataset(dataset)
+        self.assertFalse(errors)
+        self.assertFalse(results[0].passed)
+        self.assertIn("finite numbers", results[0].reason)
+
+    def test_extremely_large_filter_weight_does_not_crash_dataset(self):
+        filters = generate_standard_filters(2)
+        filters["Cross"][0][0] = 10 ** 10000
+        dataset = {
+            "filters": {"size_2": filters},
+            "patterns": {
+                "size_2_1": {"input": [[1, 0], [0, 1]], "expected": LABEL_CROSS}
+            },
+        }
+        results, errors = evaluate_dataset(dataset)
+        self.assertFalse(errors)
+        self.assertFalse(results[0].passed)
+        self.assertIn("finite numbers", results[0].reason)
+
     def test_benchmark_runs_at_least_ten_repeats(self):
         dataset = {
             "filters": {"size_3": generate_standard_filters(3)},

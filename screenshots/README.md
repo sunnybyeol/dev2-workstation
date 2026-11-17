@@ -9,4 +9,4 @@
 - `../screenshots/tests.png`: 표준 라이브러리 단위 테스트 결과 (이전 5개 테스트 화면)
 - `../screenshots/exit.png`: 컨트롤+C와 종료 버튼을 눌렀을 때
 
-최신 6개 다운로드 데이터 결과는 `../logs/mode-json.txt`에서, 최신 8개 테스트 실행 결과는 `../logs/tests.txt`에서 확인할 수 있습니다. 최신 모드 1 실행 기록은 `../logs/manual-input.txt`에 있으며 MAC 연산 시간 출력도 포함합니다. `json-results.png`는 이전 9개 사례 화면입니다. `json-results.png`, `tests.png`, `manual-input.png`는 최신 수정의 증거로 사용하기 전에 새로 캡처한 화면으로 교체하세요.
+최신 6개 다운로드 데이터 결과는 `../logs/mode-json.txt`에서, 최신 8개 테스트 실행 결과는 `../logs/tests.txt`에서 확인할 수 있습니다. 최신 모드 1 실행 기록은 `../logs/manual-input.txt`에 있으며 MAC 연산 시간 출력도 포함합니다. 

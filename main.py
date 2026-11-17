@@ -12,12 +12,12 @@ from npu_sim import (
     LABEL_CROSS,
     LABEL_UNDECIDED,
     LABEL_X,
-    benchmark_by_size,
+    benchmark_by_size,#유효 사례에 한해 성능을 측정
     benchmark_generated_size,
-    compare_manual,
-    evaluate_dataset,
-    generate_pattern,
-    generate_standard_filters,
+    compare_manual,#점수판정
+    evaluate_dataset,# JSON 사례를 격리 처리
+    generate_pattern,#보너스 자동 생성 및 벤치마크에 재사용
+    generate_standard_filters,#보너스 자동 생성 및 벤치마크에 재사용
     mac_flat,
     mac_2d,
     flatten,
@@ -26,11 +26,11 @@ from npu_sim import (
 ROOT = Path(__file__).resolve().parent
 DATA_PATH = ROOT / "data.json"
 
-
+#사용자가 입력을 취소했을 때 발생시키는 사용자 정의 예외
 class InputCancelled(Exception):
     """Raised for Ctrl+C or EOF so the program can leave cleanly."""
 
-
+#입력 받는 곳
 def ask(prompt: str) -> str:
     try:
         return input(prompt).strip()
@@ -38,7 +38,7 @@ def ask(prompt: str) -> str:
         print("\n입력이 끝나 안전하게 종료합니다.")
         raise InputCancelled from error
 
-
+#정수만 입력 받는 곳
 def ask_int(prompt: str, minimum: int, maximum: int) -> int:
     while True:
         raw = ask(prompt)
@@ -51,7 +51,7 @@ def ask_int(prompt: str, minimum: int, maximum: int) -> int:
             return value
         print("{}부터 {} 사이의 정수를 입력해 주세요.".format(minimum, maximum))
 
-
+#0과1로 이루어진 정사각형 표를 입력 받는 곳
 def read_matrix(size: int, title: str) -> List[List[int]]:
     print("{} (각 줄에 0/1 {}개, 공백으로 구분)".format(title, size))
     matrix: List[List[int]] = []
@@ -71,7 +71,7 @@ def read_matrix(size: int, title: str) -> List[List[int]]:
             break
     return matrix
 
-
+#표를 보기 좋게 출력하는 곳
 def print_matrix(matrix: List[List[int]]) -> None:
     for row in matrix:
         print(" ".join(str(value) for value in row))

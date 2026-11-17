@@ -6,7 +6,7 @@
 
 - Python 3.8 이상, 표준 라이브러리만 사용합니다. NumPy 설치는 필요하지 않습니다.
 - Python 3.8 이상 설치 후 PowerShell에서 `Set-Location C:\dev\dev2-workstation` 및 `python main.py`를 실행합니다. `python` 명령이 PATH에 등록되지 않은 이 PC에서는 `& "$env:LOCALAPPDATA\Programs\Python\Python314\python.exe" -X utf8 main.py`를 사용할 수 있습니다.
-- `data.json`은 `main.py`와 같은 폴더에 둡니다. `C:\Users\witch\Downloads\data.json`을 적용했으며, 5·13·25 크기의 사례 6건을 포함합니다. 숫자 0/1로 된 입력 패턴과 유한한 실수 가중치를 가진 필터를 지원합니다.
+- `data.json`은 `main.py`와 같은 폴더에 둡니다.  5·13·25 크기의 사례 6건을 포함합니다. 숫자 0/1로 된 입력 패턴과 유한한 실수 가중치를 가진 필터를 지원합니다.
 
 ## 메뉴
 
@@ -21,7 +21,7 @@
 
 크기 N의 패턴 `P`와 필터 `F`에 대해 `score = Σ(P[i][j] × F[i][j])`를 계산합니다. 각 필터는 N²회의 곱셈 누산을 수행하며, Cross와 X 두 필터를 비교하면 사례 하나당 2N² MAC 위치를 방문합니다. 점수가 클수록 해당 필터 모양과 더 잘 맞습니다. 점수 차이의 절댓값이 `1e-9`보다 작으면 순서에 상관없이 `UNDECIDED`로 처리합니다. JSON의 `+`, `십자`는 Cross로, `x`, `×`는 X로 통일한 뒤 비교합니다.
 
-`data.json` 구조는 `filters.size_5.cross`, `filters.size_5.x`처럼 크기별 필터를 두고, `patterns.size_5_1` 아래에 `input` 2차원 배열과 `expected` 레이블을 둡니다. 입력 패턴은 이진값이어야 하며 필터 가중치는 유한한 숫자를 허용합니다. 전달된 파일에서 계산상 동점인 세 사례는 기존 `x`/`+` 예상값과 모순되어 `UNDECIDED`로 바로잡았습니다. 크기·행·열·값·키·레이블이 맞지 않는 사례는 프로그램을 중단하지 않고 해당 사례만 FAIL 처리하며 이유를 기록합니다.
+`data.json` 구조는 `filters.size_5.cross`, `filters.size_5.x`처럼 크기별 필터를 두고, `patterns.size_5_1` 아래에 `input` 2차원 배열과 `expected` 레이블을 둡니다. 입력 패턴은 이진값이어야 하며 필터 가중치는 유한한 숫자를 허용합니다.  계산상 동점인 세 사례는 기존 `x`/`+` 예상값과 모순되어 `UNDECIDED`로 잡았습니다. 크기·행·열·값·키·레이블이 맞지 않는 사례는 프로그램을 중단하지 않고 해당 사례만 FAIL 처리하며 이유를 기록합니다.
 
 ### 두 모드의 동점 처리
 
@@ -111,3 +111,17 @@ Python 3.14 환경에서 `python -m unittest discover -s tests -v`를 실행해 
 - 모드 1 결과: [`logs/manual-input.txt`](logs/manual-input.txt)
 - JSON 분석 결과: [`logs/mode-json.txt`](logs/mode-json.txt)
 - GitHub 저장소: [sunnybyeol/dev2-workstation](https://github.com/sunnybyeol/dev2-workstation)
+
+
+## 화면 증거
+
+이 폴더는 실제 앱 화면 캡처를 보관하는 위치입니다. 실제 실행 출력은 `../logs/`에 저장했습니다.
+
+- `../screenshots/menu.png`: 시작 메뉴와 종료
+- `../screenshots/manual-input.png`: 3×3 입력의 MAC 점수와 A/B 판정 (연산 시간 표시 추가 전 화면)
+- `../screenshots/json-results.png`: 6개 데이터 사례의 PASS 결과 및 성능 측정
+- `../screenshots/bonus.png`: 자동 패턴 생성 및 2D/1D 비교
+- `../screenshots/tests.png`: 표준 라이브러리 단위 테스트 결과 (이전 5개 테스트 화면)
+- `../screenshots/exit.png`: 컨트롤+C와 종료 버튼을 눌렀을 때
+
+최신 6개 다운로드 데이터 결과는 `../logs/mode-json.txt`에서, 최신 8개 테스트 실행 결과는 `../logs/tests.txt`에서 확인할 수 있습니다. 최신 모드 1 실행 기록은 `../logs/manual-input.txt`에 있으며 MAC 연산 시간 출력도 포함합니다.
